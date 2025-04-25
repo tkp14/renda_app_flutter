@@ -11,7 +11,12 @@ class TapCounterApp extends StatelessWidget {
     return MaterialApp(
       title: '連打アプリ',
       theme: ThemeData(
+        fontFamily: 'Arial',
+        scaffoldBackgroundColor: Color(0xFFE3F2FD), // 👈 淡いブルーの背景色
         primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(fontSize: 20),
+        ),
       ),
       home: TapGamePage(),
     );
@@ -87,35 +92,41 @@ class _TapGamePageState extends State<TapGamePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('10秒連打チャレンジ'),
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade700,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('残り時間: $_timeLeft 秒', style: TextStyle(fontSize: 24)),
-            SizedBox(height: 20),
-            Text('タップ数: $_counter', style: TextStyle(fontSize: 32)),
-            SizedBox(height: 40),
-            _isPlaying
-                ? ElevatedButton(
-                    onPressed: _incrementCounter,
-                    child: Text('タップ！'),
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                      textStyle: TextStyle(fontSize: 24),
-                    ),
-                  )
-                : ElevatedButton(
-                    onPressed: _startGame,
-                    child: Text('スタート'),
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                      textStyle: TextStyle(fontSize: 24),
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0), // 👈 横に余白
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('残り時間',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
+              Text('$_timeLeft 秒',
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+              SizedBox(height: 30),
+              Text('タップ数',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500)),
+              Text('$_counter',
+                  style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+              SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: _isPlaying ? _incrementCounter : _startGame,
+                child: Text(_isPlaying ? 'タップ！' : 'スタート'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16), // 👈 角丸
                   ),
-          ],
+                  elevation: 6, // 👈 影
+                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  textStyle: TextStyle(fontSize: 24),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
